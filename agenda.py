@@ -1,15 +1,28 @@
-#!/usr/bin/python
+from Tkinter import *;
 import thread;
 import time;
 import os;
 from datetime import datetime;
-from Tkinter import *
-import tkMessageBox;
+t=1;
+root=Tk();
+root.title("agenda");
+root.geometry("500x300");
+frame=Frame(root);
+frame2=Frame(root);
+global ss;
+ss=StringVar();
+ss.set(" ");
+iiput=Text(frame2);
+iiput2=Entry(frame);
 lists=[];
-#if you are a windows user change next 2 lines 
 programToOpen="mousepad";
 fileToOpen="agenda.txt";
 filellog=">/dev/null";
+ss="";
+t6=0;
+s="time:                         "
+sss=""
+ssss=""
 def filesw(sss):
 	f= open(fileToOpen,"a");
 	f.write(sss+"\n");
@@ -20,56 +33,55 @@ def gettimes():
 	t=time.time();
 	return t;
 def report(t):
+	local="";
 	local=time.asctime(time.localtime(t));
-	print (local);
-def msgboxs():
-	t=time.time();
-        s="time: "
-        s = s + time.asctime(time.localtime(t));
-	root=Tk();
-	ss=StringVar();
-	ss.set("time:                       ");
-	label=Label(root,textvariable=ss,font="mono",justify="left").pack()
-        ss.set(s);
-	root.mainloop();
-def inputs():
-	a="";
-	global lists;
-	t=0;
-	t=gettimes();
-	while 1:
-		print("month/day/year hors:minuts:seconds")
-		a=raw_input();
-		t=0.00;
-		t=gettimes();
-		try:
-			t=time.strptime(a,"%m/%d/%y %H:%M:%S");
-			t=time.mktime(t);
-			report(t);
-			lists+=[t];
-			filesw(time.asctime(time.localtime(t)));
-			shells();
-		except:
-			print("data not correct");
-def add(a,b):
-	return a+b;
-n=0;
-t=0.00;
-l=0;
-tt=0.00;
-f=0;
-sss="alert check you agenda:"
-print("\033c\033[42;30m\n");
-report(gettimes());
-thread.start_new_thread(inputs,())
-while 1:
-	l=len(lists);
-	if l>0:
-		t=gettimes();
-		for n in range(0,l):
-			if lists[n]<t:
-				tt=lists[n];
-				lists.remove(lists[n]);
-				thread.start_new_thread(msgboxs,());
-				thread.start_new_thread(shells,());
+	return local;
 
+
+def ups():
+    global lists;
+    a=iiput2.get()
+    try:
+        t=time.strptime(a,"%m/%d/%y %H:%M:%S");
+        t=time.mktime(t);
+        iiput.insert(INSERT,report(t)+"\n");
+        lists+=[t];
+        filesw(report(t)+"\n");
+	thread.start_new_thread(shells,());
+    except:
+        iiput.insert(INSERT,"data not correct\n");
+def clocks():
+	global t;
+	global lists;
+	l=0;
+	n=0;
+	while t:
+		l=len(lists);
+		if l>0:
+			t=gettimes();
+			for n in range(0,l):
+				if lists[n]<t:
+					tt=lists[n];
+					lists.remove(lists[n]);
+					thread.start_new_thread(shells,());
+
+iiput.width=3
+iiput.height=1
+iiput2.width=3
+iiput2.height=1
+frame.pack()
+frame.width=500
+frame.height=80
+frame2.pack(side =BOTTOM)
+frame2.width=500
+frame2.height=200
+sups=Button(frame,text="add",command=ups)
+sups.pack(side =LEFT) 
+iiput2.pack(side =LEFT) 
+iiput.pack(side =BOTTOM)
+ss="add: month/day/year hors:minuts:seconds\n\n"
+iiput.insert(INSERT,ss)
+thread.start_new_thread(clocks,())
+root.mainloop()            
+t=0
+time.sleep(2)
