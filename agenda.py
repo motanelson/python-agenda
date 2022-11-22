@@ -1,17 +1,29 @@
 #!/usr/bin/python
 import thread;
 import time;
+import os;
 from datetime import datetime;
 from Tkinter import *
 import tkMessageBox;
 lists=[];
+#if you are a windows user change next 2 lines 
+programToOpen="mousepad";
+fileToOpen="agenda.txt";
+filellog=">/dev/null";
+def filesw(sss):
+	f= open(fileToOpen,"a");
+	f.write(sss+"\n");
+	f.close;
+def shells():
+    dos=os.system(programToOpen+" "+fileToOpen);
 def gettimes():
 	t=time.time();
 	return t;
 def report(t):
 	local=time.asctime(time.localtime(t));
 	print (local);
-def msgboxs(t):
+def msgboxs():
+	t=time.time();
         s="time: "
         s = s + time.asctime(time.localtime(t));
 	root=Tk();
@@ -33,9 +45,9 @@ def inputs():
 		try:
 			t=time.strptime(a,"%m/%d/%y %H:%M:%S");
 			t=time.mktime(t);
-			print(t);
 			report(t);
 			lists+=[t];
+			filesw(time.asctime(time.localtime(t)));
 		except:
 			print("data not correct");
 def add(a,b):
@@ -44,6 +56,8 @@ n=0;
 t=0.00;
 l=0;
 tt=0.00;
+f=0;
+sss="alert check you agenda:"
 print("\033c\033[42;30m\n");
 report(gettimes());
 thread.start_new_thread(inputs,())
@@ -55,4 +69,6 @@ while 1:
 			if lists[n]<t:
 				tt=lists[n];
 				lists.remove(lists[n]);
-				msgboxs(tt);
+				#thread.start_new_thread(msgboxs,());
+				thread.start_new_thread(shells,());
+
