@@ -56,15 +56,19 @@ def clocks():
 	l=0;
 	n=0;
 	while t:
-		l=len(lists);
-		if l>0:
-			t=gettimes();
-			for n in range(0,l):
-				if lists[n]<t:
-					tt=lists[n];
-					lists.remove(lists[n]);
-					thread.start_new_thread(shells,());
-
+		try:
+			time.sleep(1);
+			root.title(report(gettimes()));
+			l=len(lists);
+			if l>0:
+				t=gettimes();
+				for n in range(0,l):
+					if lists[n]<t:
+						tt=lists[n];
+						lists.remove(lists[n]);
+						thread.start_new_thread(shells,());
+		except:
+			t=0
 iiput.width=3
 iiput.height=1
 iiput2.width=3
@@ -84,4 +88,4 @@ iiput.insert(INSERT,ss)
 thread.start_new_thread(clocks,())
 root.mainloop()            
 t=0
-time.sleep(2)
+time.sleep(5)
