@@ -15,7 +15,7 @@ def filesw(sss):
 	f.write(sss+"\n");
 	f.close;
 def shells():
-    dos=os.system(programToOpen+" "+fileToOpen);
+    dos=os.system(programToOpen+" "+fileToOpen+" "+filellog+" 2"+filellog);
 def gettimes():
 	t=time.time();
 	return t;
@@ -69,6 +69,6 @@ while 1:
 			if lists[n]<t:
 				tt=lists[n];
 				lists.remove(lists[n]);
-				#thread.start_new_thread(msgboxs,());
+				thread.start_new_thread(msgboxs,());
 				thread.start_new_thread(shells,());
 
