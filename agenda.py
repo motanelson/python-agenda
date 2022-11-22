@@ -48,6 +48,7 @@ def inputs():
 			report(t);
 			lists+=[t];
 			filesw(time.asctime(time.localtime(t)));
+			shells();
 		except:
 			print("data not correct");
 def add(a,b):
