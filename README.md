@@ -1,2 +1,2 @@
 # python-agenda
-python-command line agenda
+python agenda daily alarme
