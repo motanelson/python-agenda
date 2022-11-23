@@ -17,12 +17,55 @@ iiput2=Entry(frame);
 lists=[];
 programToOpen="mousepad";
 fileToOpen="agenda.txt";
+fileToData="agenda.dat";
 filellog=">/dev/null";
 ss="";
 t6=0;
 s="time:                         "
 sss=""
 ssss=""
+def loads():
+	global lists;
+	lists=[];	
+	d="";	
+	i=0;
+	n=0;
+	ii=0.00;
+	f=0;
+	try:
+		f= open(fileToData, "r+");
+	except:
+		f= open(fileToData, "w+");
+		f.write(str(i)+"\n");
+		f.close();
+		f= open(fileToData, "r+");
+	d=f.readline();
+	print (d);
+	i=eval(d);
+	try:
+		if i>0:
+			for n in range(0,i):
+				d=f.readline();
+				ii=eval(d);
+				lists+=[ii];
+	except:
+		ii=0;	
+	f.close();
+def saves():
+	global lists
+	i=len(lists);
+	n=0;
+	ii=0.00;
+	f=0;
+	try:
+		f= open(fileToData, "w+");
+		f.write(str(i)+"\n");
+		if i>0:
+			for n in range(0,i):
+				f.write(str(lists[n])+"\n");
+	except:
+		ii=0;
+	f.close();
 def filesw(sss):
 	f= open(fileToOpen,"a");
 	f.write(sss+"\n");
@@ -46,6 +89,7 @@ def ups():
         t=time.mktime(t);
         iiput.insert(INSERT,report(t)+"\n");
         lists+=[t];
+	saves();
         filesw(report(t)+"\n");
 	thread.start_new_thread(shells,());
     except:
@@ -67,6 +111,7 @@ def clocks():
 						tt=lists[n];
 						lists.remove(lists[n]);
 						thread.start_new_thread(shells,());
+						saves();
 		except:
 			t=0
 iiput.width=3
@@ -86,6 +131,7 @@ iiput.pack(side =BOTTOM)
 ss="add: month/day/year hors:minuts:seconds\n\n"
 iiput.insert(INSERT,ss)
 thread.start_new_thread(clocks,())
+loads();
 root.mainloop()            
 t=0
 time.sleep(5)
